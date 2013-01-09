@@ -24,7 +24,7 @@ class RedeliverOutputTest < Test::Unit::TestCase
   end
 
   def test_emit
-    d = create_driver %[
+    d1 = create_driver %[
       regexp ^app\\.(.*)\\.(.*)$
       replace test.hoge.\\1_\\2
     ], 'app.foo.bar'
@@ -32,12 +32,12 @@ class RedeliverOutputTest < Test::Unit::TestCase
     now1 = Time.now
     now2 = Time.now + 100
 
-    d.run do
-      d.emit({ "test" => "value1" }, now1)
-      d.emit({ "test" => "value2" }, now2)
+    d1.run do
+      d1.emit({ "test" => "value1" }, now1)
+      d1.emit({ "test" => "value2" }, now2)
     end
 
-    emits = d.emits
+    emits = d1.emits
 
     assert_equal 2, emits.length
 
@@ -50,6 +50,22 @@ class RedeliverOutputTest < Test::Unit::TestCase
     assert_equal now2.to_i, emits[1][1]
     assert_equal 'value2', emits[1][2]['test']
     assert_equal nil, emits[1][2]['tag']
+
+    # not match pattern
+
+    d2 = create_driver %[
+       regexp ^app\\.bar\\.(.*)$
+       replace test.hoge.\\1
+    ], 'app.foo.bar'
+
+    d2.run do
+      d2.emit({ "test" => "value1" }, now1)
+    end
+
+    emits2 = d2.emits
+
+    assert_equal 0, emits2.length
+
   end
 
 end
