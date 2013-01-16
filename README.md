@@ -11,7 +11,8 @@ Simple re-delivery plugin to process log record as another tag
   type     redeliver
   regexp   ^foo\.(.*)$
   replace  bar.\1
-  tag_attr __tag    # add original tag to '__tag' key each record -- optional
+  # add original tag to record['__tag'] (optional) 
+  tag_attr __tag
 </match>
 
 <match bar.**>
