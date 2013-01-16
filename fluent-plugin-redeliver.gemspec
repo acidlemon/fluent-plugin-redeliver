@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
   gem.name          = "fluent-plugin-redeliver"
-  gem.version       = "0.0.1"
+  gem.version       = "0.0.2"
   gem.authors       = ["Masatoshi Kawazoe (acidlemon)"]
   gem.email         = ["acidlemon@beatsync.net"]
   gem.description   = %q{simple tag-based redeliver plugin}
