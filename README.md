@@ -7,13 +7,13 @@ Simple re-delivery plugin to process log record as another tag
 ```
 <match foo.**>
   type     redeliver
-  regexp   foo\.(.*)
+  regexp   ^foo\.(.*)$
   replace  bar.\1
   tag_attr __tag    # add original tag to '__tag' key each record -- optional
 </match>
 
 
-<match bar.*>
+<match bar.**>
   # write your output process
 
 </match>
