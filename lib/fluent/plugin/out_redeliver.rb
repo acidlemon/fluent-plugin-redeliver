@@ -3,6 +3,7 @@ class Fluent::RedeliverOutput < Fluent::Output
 
   config_param :regexp, :string, :default => nil
   config_param :replace, :string, :default => nil
+  config_param :tag_attr, :string, :default => nil
 
   def initialize
     super
@@ -21,13 +22,17 @@ class Fluent::RedeliverOutput < Fluent::Output
   end
 
   def emit(tag, es, chain)
+    newtag = ''
     if @regexp and @replace
       newtag = tag.sub(Regexp.new(@regexp), @replace)
     end
 
     if newtag != tag and newtag.length > 0
       es.each do |time, record|
-        Fluent::Engine.emit(newtag, time, record) if record
+        if (record)
+          record[tag_attr] = tag if tag_attr
+          Fluent::Engine.emit(newtag, time, record)
+        end
       end
     end
 
