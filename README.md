@@ -1,6 +1,6 @@
 # Fluent::Plugin::Redeliver
 
-Simple re-delivery plugin to process as another tag
+Simple re-delivery plugin to process log record as another tag
 
 ## Synopsis
 
