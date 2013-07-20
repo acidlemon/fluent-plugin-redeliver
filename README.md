@@ -12,7 +12,8 @@ Simple re-delivery plugin to process log record as another tag
   regexp   ^foo\.(.*)$
   replace  bar.\1
   # add original tag to record['__tag'] (optional) 
-  tag_attr __tag
+  include_tag_key true
+  tag_key __tag
 </match>
 
 <match bar.**>
@@ -20,6 +21,8 @@ Simple re-delivery plugin to process log record as another tag
 
 </match>
 ```
+
+For v0.0.2 User: `tag_attr` is obsoleted. But it works compatible with 0.0.2 now.
 
 ### More Effective
 
@@ -36,7 +39,8 @@ Simple re-delivery plugin to process log record as another tag
     type     redeliver
     regexp   ^myapp\.error\.(.*)$
     replace  logging.error.\1
-    tag_attr __tag
+    include_tag_key true
+    tag_key __tag
   </store>
 </match>
 
@@ -72,7 +76,8 @@ Simple re-delivery plugin to process log record as another tag
 
  * `regexp`: redelivers the record if tag matches specified pattern.
  * `replace`: rewrites tag for re-emit. You can use n-th matched subexpression(\1,\2...) for replace string.
- * `tag_attr`: adds original tag to specified key if regexp matches.
+ * `include_tag_key`: enables adding original tag to specified key when regexp matches.
+ * `tag_key`: adds original tag to specified key when include_tag_key set `true`.
 
 
 ## Installation
